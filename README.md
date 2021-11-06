@@ -1,18 +1,26 @@
 # v-fetch
 
-封装 Axios, 避免在项目中重复写 API 方法。
+这是基于 axios 封装的请求库，目的是为了简化项目中 API 文件夹的文件，提高开发效率。
 
-基于 Axios 封装的接口请求
+## 项目问题
+
+- 每个项目都需要建立 API 文件夹，存放需要请求的文件。
+- 每个 API 文件都需要重复编写
+- 项目中各文件重复 import 导入调用
 
 ## 安装
+
+## 使用
+
+1、Vue 插件导入
 
 ```js
 import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 
-import VFetch from "../src/index";
-import FetchConfig from "./config/fetch.config";
+import VFetch from "fetch";
+import FetchConfig from "./config/fetch.config"; // fetch 配置文件
 
 Vue.config.productionTip = false;
 Vue.use(VFetch, FetchConfig);
@@ -23,76 +31,97 @@ new Vue({
 }).$mount("#app");
 ```
 
-## 使用
+2、template 直接使用
 
-# 项目问题
+```vue
+<template>
+  <div id="app">
+    <router-view>
+  </div>
+</template>
 
-1、比如在项目中总有一个 API 文件夹，里面放的都是后台的接口，重复定义写方法，然后各种地方调用，各种 import，
+<script>
+export default {
+  name: "App",
+  beforeMount() {
+    // 直接调用
+    this.$fetch("Login", { name: "admin" }).then((response) => {
+      console.log("response", response);
+    });
+
+    // vuex dispatch
+    this.$store.dispatch('fetchAction');
+  },
+};
+</script>
+```
+
+3、vuex dispatch 异步提交
 
 ```js
-import api from '@/api'
-import { axios } from '@/utils/request'
+import Vue from "vue";
+import Vuex from "vuex";
+import { fetch } from "fetch";
 
-/**
- * 登录
- * @param {*} params 用户信息
- * @returns
- */
-export function login (params) {
-  return axios({
-    url: '/user/login',
-    method: 'post',
-    data: params
-  })
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {},
+  mutations: {
+    setUserInfo(state, payload) {
+      state.userInfo = payload;
+    }
+  },
+  actions: {
+    fetchAction({commit}, payload) {
+      // fetch("GetUserInfo", {
+      //   username: "admin",
+      //   password: "123455",
+      // });
+      return new Promise((resolve, reject) => {
+        fetch('getUserInfo', payload).then(res => {
+          commit('setUserInfo', res)
+          resolve(res)
+        }).catch(e => {
+          reject(e)
+        })
+      })
+    },
+  },
+  getters: {},
+  modules: {},
+});
+
+
+```
+
+## 配置文件
+
+```js
+// 基本和axios配置一致
+// 目前仅支持这么多，后续继续优化
+{
+  baseURL: "/api",
+  timeout: 3000,
+  interceptors: {
+    // request: [function () {}, function () {}],
+    request: function (config) {
+      console.log(config);
+      return config;
+    },
+    response: function () {},
+  },
+  // 错误统一处理
+  errorHandler: (e) => {
+    console.log(e.response);
+  },
+  // api 地址
+  // GET PUT DELETE POST
+  routes: {
+    logout: '/api/user/logout',        // 默认GET请求
+    userLogin: 'POST /api/user/login', // POST请求
+    userInfo: 'GET /api/user/info',    // GET请求
+    editUserInfo: 'PUT /api/user/info', // PUT请求
+  },
 }
-
-/**
- * 重新登录
- * @returns Promise
- */
-export function relogin () {
-  return axios({
-    url: '/user/relogin',
-    method: 'put'
-  })
-}
-
-/**
- * 注销登录
- * @returns Promise
- */
-export function logout () {
-  return axios({
-    url: '/user/logout',
-    method: 'post'
-  })
-}
 ```
-
-## Project setup
-
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -7,12 +7,13 @@ const fetch = async function (route, data) {
     return Promise.reject(new Error("Router Params Not Found"));
   }
   switch (queryParams.method) {
-    case "GET":
-      queryParams.params = data;
-      break;
     case "POST":
+    case "PUT":
+    case "PATCH":
       queryParams.data = data;
       break;
+    default:
+      queryParams.params = data;
   }
   return Request(opts)(queryParams);
 };

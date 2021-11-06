@@ -20,7 +20,9 @@ export default {
     // this.$store.dispatch("fetchAction").then((res) => {
     //   console.log("this.$store.dispatch", res);
     // });
-    this.$store.dispatch("fetchAction");
+    this.$store.dispatch("fetchAction").then((res) => {
+      console.log(res);
+    });
   },
 };
 </script>

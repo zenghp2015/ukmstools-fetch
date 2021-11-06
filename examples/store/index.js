@@ -12,12 +12,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    fetchAction() {
-      fetch("GetUserInfo", { username: "admin", password: "123455" }).then(
-        (res) => {
-          console.log(res);
-        }
-      );
+    async fetchAction() {
+      const userInfo = await fetch("GetUserInfo", {
+        username: "admin",
+        password: "123455",
+      });
+      return userInfo;
       // return fetch().then((res) => {
       //   console.log(res);
       //   return res;
