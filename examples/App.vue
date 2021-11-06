@@ -13,6 +13,15 @@ export default {
   components: {
     HelloWorld,
   },
+  beforeMount() {
+    this.$fetch("Login", { name: "admin" }).then((response) => {
+      console.log("response", response);
+    });
+    // this.$store.dispatch("fetchAction").then((res) => {
+    //   console.log("this.$store.dispatch", res);
+    // });
+    this.$store.dispatch("fetchAction");
+  },
 };
 </script>
 
