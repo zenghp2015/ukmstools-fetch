@@ -44,8 +44,10 @@ new Vue({
 export default {
   name: "App",
   beforeMount() {
-    // 直接调用
-    this.$fetch("Login", { name: "admin" }).then((response) => {
+    // 直接调用 
+    // fn(name, params) 接口名，参数
+    // 对应调用 routes 里的 userInfo 
+    this.$fetch("userInfo", { name: "admin" }).then((response) => {
       console.log("response", response);
     });
 
@@ -91,8 +93,6 @@ export default new Vuex.Store({
   getters: {},
   modules: {},
 });
-
-
 ```
 
 ## 配置文件
