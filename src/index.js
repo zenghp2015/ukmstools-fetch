@@ -1,5 +1,4 @@
 import Request from "./request";
-
 let opts = {};
 const fetch = async function (route, data) {
   const queryParams = opts.routes[route] && getQueryParams(opts.routes[route]);
