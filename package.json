@@ -1,12 +1,12 @@
 {
-  "name": "v-fetch",
+  "name": "ukmstools-fetch",
   "version": "0.1.0",
-  "main": "lib/v-fetch.umd.min.js",
+  "main": "lib/ukmstools-fetch.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name v-fetch --dest lib src/index.js"
+    "lib": "vue-cli-service build --target lib --name ukmstools-fetch --dest lib src/index.js"
   },
   "dependencies": {
     "axios": "^0.24.0",
