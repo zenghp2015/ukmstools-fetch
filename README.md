@@ -1,4 +1,4 @@
-# v-fetch
+# ukmstools-fetch
 
 这是基于 axios 封装的请求库，目的是为了简化项目中 API 文件夹的文件，提高开发效率。
 
@@ -19,7 +19,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 
-import VFetch from "fetch";
+import VFetch from "ukmstools-fetch";
 import FetchConfig from "./config/fetch.config"; // fetch 配置文件
 
 Vue.config.productionTip = false;
